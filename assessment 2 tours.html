@@ -1,0 +1,147 @@
+<!-- tour.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour</title>
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <header>
+    <h1>The Weeknd</h1>
+    <h2>A Tribute to Abel Tesfaye</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="assessment%202%20albums.html">Albums</a>
+      <a href="assessment%202%20tours.html">Tour</a>
+      <a href="assessment%202%20gallery.html">Gallery</a>
+      <a href="assessment%202%20contacts.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Banner Image -->
+  <div class="tour-banner">
+    <img src="https://assets.exclaim.ca/dr2uqw6xy/image/upload/c_limit,w_890/f_auto/q_auto/the_weeknd_2024_b3d01be602?_a=BAVAfVIB0" alt="The Weeknd Tour Banner">
+  </div>
+
+  <div class="tour">
+    <h2>Upcoming Tours</h2>
+
+    <!-- Filter -->
+    <label for="cityFilter">Filter by city:</label>
+    <select id="cityFilter" onchange="filterTourDates()">
+      <option value="all">All</option>
+      <option value="Phoenix">Phoenix</option>
+      <option value="Detroit">Detroit</option>
+      <option value="Chicago">Chicago</option>
+      <option value="East Rutherford">East Rutherford</option>
+      <option value="Los Angeles">Los Angeles</option>
+      <option value="Toronto">Toronto</option>
+      <option value="Miami">Miami</option>
+      <option value="Houston">Houston</option>
+    </select>
+
+    <!-- Countdown -->
+    <p id="countdown"></p>
+
+    <ul id="tourList">
+      <!-- Tour dates will be injected here -->
+    </ul>
+
+    <p>Get your <strong><a href="https://www.ticketmaster.com/the-weeknd-tickets/artist/1697014" target="_blank">Tickets</a></strong> and <strong><a href="https://www.vipnation.com/tour/2025-20" target="_blank">VIP Packages</a></strong> now!</p>
+  </div>
+
+  <div class="map">
+    <h3>Next Stop: Phoenix</h3>
+    <iframe src="https://www.google.com/maps?q=State+Farm+Stadium,+Phoenix,+USA&output=embed" height="300" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+
+  <script>
+    const ticketmasterLink = "https://www.ticketmaster.com/the-weeknd-tickets/artist/1697014";
+    const vipLink = "https://www.vipnation.com/tour/2025-20";
+
+    const tourDates = [
+      ["Fri, May 9", "State Farm Stadium", "Phoenix, USA"],
+      ["Sat, May 24", "Ford Field", "Detroit, USA"],
+      ["Sun, May 25", "Ford Field", "Detroit, USA"],
+      ["Fri, May 30", "Soldier Field", "Chicago, USA"],
+      ["Sat, May 31", "Soldier Field", "Chicago, USA"],
+      ["Thu, Jun 5", "Metlife Stadium", "East Rutherford, USA"],
+      ["Fri, Jun 6", "Metlife Stadium", "East Rutherford, USA"],
+      ["Sat, Jun 7", "Metlife Stadium", "East Rutherford, USA"],
+      ["Tue, Jun 10", "Gillette Stadium", "Foxborough, USA"],
+      ["Wed, Jun 11", "Gillette Stadium", "Foxborough, USA"],
+      ["Sat, Jun 14", "U.S. Bank Stadium", "Minneapolis, USA"],
+      ["Sat, Jun 21", "Empower Field At Mile High", "Denver, USA"],
+      ["Wed, Jun 25", "SoFi Stadium", "Los Angeles, USA"],
+      ["Thu, Jun 26", "SoFi Stadium", "Los Angeles, USA"],
+      ["Sat, Jun 28", "SoFi Stadium", "Los Angeles, USA"],
+      ["Sun, Jun 29", "SoFi Stadium", "Los Angeles, USA"],
+      ["Fri, Jul 4", "Allegiant Stadium", "Las Vegas, USA"],
+      ["Sat, Jul 5", "Allegiant Stadium", "Las Vegas, USA"],
+      ["Tue, Jul 8", "Levi's Stadium", "Santa Clara, USA"],
+      ["Wed, Jul 9", "Levi's Stadium", "Santa Clara, USA"],
+      ["Sat, Jul 12", "Lumen Field", "Seattle, USA"],
+      ["Tue, Jul 15", "BC Place", "Vancouver, Canada"],
+      ["Wed, Jul 16", "BC Place", "Vancouver, Canada"],
+      ["Sat, Jul 19", "Commonwealth Stadium", "Edmonton, Canada"],
+      ["Thu, Jul 24", "Parc Jean-Drapeau", "Montreal, Canada"],
+      ["Fri, Jul 25", "Parc Jean-Drapeau", "Montreal, Canada"],
+      ["Sun, Jul 27", "Rogers Centre", "Toronto, Canada"],
+      ["Mon, Jul 28", "Rogers Centre", "Toronto, Canada"],
+      ["Wed, Jul 30", "Lincoln Financial Field", "Philadelphia, USA"],
+      ["Thu, Jul 31", "Lincoln Financial Field", "Philadelphia, USA"],
+      ["Sat, Aug 2", "Northwest Stadium", "Landover, USA"],
+      ["Thu, Aug 7", "Rogers Centre", "Toronto, Canada"],
+      ["Fri, Aug 8", "Rogers Centre", "Toronto, Canada"],
+      ["Tue, Aug 12", "Nissan Stadium", "Nashville, USA"],
+      ["Fri, Aug 15", "Hard Rock Stadium", "Miami, USA"],
+      ["Sat, Aug 16", "Hard Rock Stadium", "Miami, USA"],
+      ["Thu, Aug 21", "Mercedes-Benz Stadium", "Atlanta, USA"],
+      ["Sun, Aug 24", "Camping World Stadium", "Orlando, USA"],
+      ["Wed, Aug 27", "AT&T Stadium", "Arlington, USA"],
+      ["Thu, Aug 28", "AT&T Stadium", "Arlington, USA"],
+      ["Sat, Aug 30", "NRG Stadium", "Houston, USA"],
+      ["Sun, Aug 31", "NRG Stadium", "Houston, USA"],
+      ["Wed, Sep 3", "Alamodome", "San Antonio, USA"]
+    ];
+
+    const tourList = document.getElementById("tourList");
+    tourList.innerHTML = tourDates.map(([date, venue, city]) => {
+      return `<li><strong>${date}</strong> – ${venue} – ${city}<br><a href="${ticketmasterLink}" class="btn" target="_blank">Tickets</a><a href="${vipLink}" class="btn vip" target="_blank">VIP Package</a></li>`;
+    }).join('');
+
+    function filterTourDates() {
+      const filter = document.getElementById('cityFilter').value.toLowerCase();
+      const listItems = document.querySelectorAll('#tourList li');
+
+      listItems.forEach(item => {
+        if (filter === "all" || item.innerText.toLowerCase().includes(filter)) {
+          item.style.display = "";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    }
+
+    const tourDate = new Date("May 9, 2025 20:00:00").getTime();
+    const countdownElement = document.getElementById("countdown");
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = tourDate - now;
+
+      if (distance < 0) {
+        countdownElement.innerHTML = "The tour has started!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      countdownElement.innerHTML = `First show in ${days} day${days !== 1 ? 's' : ''}!`;
+    }, 1000);
+  </script>
+</body>
+</html>
